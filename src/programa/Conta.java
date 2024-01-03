@@ -2,6 +2,8 @@ package programa;
 
 import util.Utils;
 
+import javax.swing.*;
+
 public class Conta {
 
     private static int contadorDeContas = 1;
@@ -53,19 +55,28 @@ public class Conta {
    //classe para os depositos
    public void depositar(Double valor) {
         if(valor > 0) {
+
             setSaldo(getSaldo() + valor);
-            System.out.println("Seu deposito foi feito com sucesso !!");
+            JOptionPane.showMessageDialog(null, "Seu deposito foi realizado com sucesso. ");
+
         }else {
-            System.out.println("Não foi possivel realizar o deposito, insira um valor maior que 0 !!");
+
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar o deposito. ");
+
+
         }
    }
     // classe para sacar
    public void sacar(Double valor) {
         if (valor > 0 && this.getSaldo() >= valor) {
+
             setSaldo(getSaldo() - valor);
-            System.out.println("Seu saque foi efetuado com sucesso !!");
+            JOptionPane.showMessageDialog(null, "Seu saque foi realizado com sucesso. ");
+
         }else {
-            System.out.println("Não foi possivel realizar o saque !");
+
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar o saque. ");
+
         }
    }
     // classe para transferir
@@ -74,9 +85,12 @@ public class Conta {
             setSaldo(getSaldo() - valor);
 
             contaDestino.saldo = contaDestino.getSaldo() + valor;
-            System.out.println("Transferencia realizada com sucesso.");
+            JOptionPane.showMessageDialog(null, "Sua transferencia foi realizada com sucesso. ");
+
         }else {
-            System.out.println("Não foi possivel realizar a sua transferencia !");
+
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar a sua transferencia ! ");
+
         }
    }
 }

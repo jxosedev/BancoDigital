@@ -11,6 +11,10 @@ public class Cliente {
     private String endereco;
     private String telefone;
 
+    public Cliente() {
+
+    }
+
     public Cliente(String nome, String cpf, String email) {
         this.nome = nome;
         this.cpf = cpf;

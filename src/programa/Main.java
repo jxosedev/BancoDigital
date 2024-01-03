@@ -1,5 +1,6 @@
 package programa;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,17 +18,16 @@ public class Main {
     }
 
     public static void operacoes() {
-        System.out.println("------------------------------------------------------");
-        System.out.println("---------------- Menu de Operações -------------------");
-        System.out.println("------------------------------------------------------");
-        System.out.println("1- Criar Conta");
-        System.out.println("2- Depositar");
-        System.out.println("3- Sacar");
-        System.out.println("4- Transferir");
-        System.out.println("5- Listar");
-        System.out.println("6- Sair");
-        System.out.println("Digite um numero de acordo com a operaçã desejada:  ");
-        int operacao = entrada.nextInt();
+
+        //painel de operações pra deixar mais profissional o menu
+        int operacao = Integer.parseInt(JOptionPane.showInputDialog("--- Selecione uma operação ---" +
+
+                                "\n1- Criar Conta" +
+                                "\n2- Depositar" +
+                                "\n3- Sacar" +
+                                "\n4- Transferir" +
+                                "\n5- Listar" +
+                                "\n6- Sair"));
 
         switch (operacao){
             case 1:
@@ -51,11 +51,11 @@ public class Main {
                 break;
 
             case 6:
-                System.out.println("Você saiu !");
+                JOptionPane.showMessageDialog(null, "Obrigado por usar nossa agencia !!");
                 System.exit(0);
 
             default:
-                System.out.println("Opção inválida !!!!");
+                JOptionPane.showMessageDialog(null, "Obrigado por usar nossa agencia !!");
                 operacoes();
                 break;
         }
@@ -63,18 +63,22 @@ public class Main {
 
     public static void criarConta() {
 
-        System.out.println("Nome: ");
-        String nome = entrada.next();
+        Cliente cliente = new Cliente();
 
-        System.out.println("CPF: ");
-        String cpf = entrada.next();
+        cliente.setNome(JOptionPane.showInputDialog("Nome: "));
 
-        System.out.println("Email: ");
-        String email = entrada.next();
+        cliente.setCpf(JOptionPane.showInputDialog("CPF: "));
 
-        Cliente cliente = new Cliente(nome, cpf, email);
+        cliente.setEmail(JOptionPane.showInputDialog("Email: "));
+
+        cliente.setEndereco(JOptionPane.showInputDialog("Endereço: "));
+
+        cliente.setTelefone(JOptionPane.showInputDialog("Telefone: "));
 
         Conta conta = new Conta(cliente);
+
+        contasBancarias.add(conta);
+        JOptionPane.showMessageDialog(null, "Sua conta foi criada com sucesso !!!");
         System.out.println("Sua conta foi criada com sucesso !!");
 
         operacoes();
@@ -94,72 +98,91 @@ public class Main {
     }
 
     public static void depositar() {
-        System.out.println("Insira o numero da conta para deposito: ");
-        int numeroConta = entrada.nextInt();
+
+
+        int numeroConta = Integer.parseInt(JOptionPane.showInputDialog("Número da conta para deposito: "));
 
         Conta conta = encontrarConta(numeroConta);// aqui ele chama o numero da conta que o usuario digitou e aplica o valor
 
         if(conta != null) {
+
             System.out.println("Insira o valor que deseja depositar.");
-            Double valorDeposito = entrada.nextDouble();
+
+            Double valorDeposito = Double.parseDouble(JOptionPane.showInputDialog("Qual valor deseja depositar ? "));
             conta.depositar(valorDeposito);
-            System.out.println("O valor foi depositado com sucesso !!");
+
+            JOptionPane.showMessageDialog(null, "O valor foi depositado com sucesso !!");
+
         }else{
-            System.out.println("A conta destino para o deposito não foi encontrada !!");
+
+            JOptionPane.showMessageDialog(null, "Conta não encontrada !!");
+
         }
+
         operacoes();
 
     }
 
     public static void sacar() {
-        System.out.println("Insira o numero da conta para deposito: ");
-        int numeroConta = entrada.nextInt();
+
+        int numeroConta = Integer.parseInt(JOptionPane.showInputDialog("Numero da conta para saque: "));
 
         Conta conta = encontrarConta(numeroConta);// aqui ele chama o numero da conta que o usuario digitou e aplica o valor
 
         if(conta != null) {
-            System.out.println("Insira o valor que deseja sacar.");
-            Double valorSaque = entrada.nextDouble();
+
+            Double valorSaque = Double.parseDouble((JOptionPane.showInputDialog("Qual o valor que deseja sacar ? ")));
             conta.sacar(valorSaque);
-            System.out.println("O valor foi sacado com sucesso !!");
+
         }else{
-            System.out.println("A conta destino para o saque não foi encontrada !!");
+
+            JOptionPane.showMessageDialog(null, "A conta destino para o saque não foi encontrada !!");
+
         }
         operacoes();
     }
 
     // aqui verifica se a conta de destino e a de envio existe, faz a validação e depois a operação
     public static void transferir(){
-        System.out.println("Insira o numero da conta do remetente: ");
-        int numeroContaRemetente = entrada.nextInt();
+
+        int numeroContaRemetente = Integer.parseInt(JOptionPane.showInputDialog("Insira o numero da conta do remetente: "));
 
         Conta contaRemetente = encontrarConta(numeroContaRemetente);
 
         if(contaRemetente != null) {
-            System.out.println("Numero da conta do destinatario: ");
-            int numeroContaDestinatario = entrada.nextInt();
+
+            int numeroContaDestinatario = Integer.parseInt(JOptionPane.showInputDialog("Insira o numero da conta do remetente: "));
 
             Conta contaDestinatario = encontrarConta(numeroContaDestinatario);
 
             if(contaDestinatario != null){
-                System.out.println("Insira o valor da transferencia: ");
-                Double valor = entrada.nextDouble();
+
+                Double valor = Double.parseDouble(JOptionPane.showInputDialog("Valor da transferencia: "));
 
                 contaRemetente.transferir(contaDestinatario, valor);
             }else {
-                System.out.println("Conta para transferencia não encontrada.");
+
+                JOptionPane.showMessageDialog(null, "Conta para transferencia não encontrada.");
+
             }
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Conta para transferencia não encontrada !!");
+
         }
         operacoes();
     }
 
     public static void listar(){
         if(contasBancarias.size() > 0) {
+
             for (Conta conta: contasBancarias){
                 System.out.println(conta);
             }
         }else{
-            System.out.println("Não há contas cadastradaS.");
+
+            JOptionPane.showMessageDialog(null, "Não há contas cadastradaS.");
+
         }
         operacoes();
     }
